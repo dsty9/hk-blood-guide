@@ -1,4 +1,4 @@
-"""每日任务：取关键词 → claude -p 写文章 → 生成配图 → 构建校验 → git push（GitHub Actions 部署）。
+"""每日任务：取关键词 → claude -p 写文章 → 生成配图 → 构建校验 → git push 源码 + scripts/deploy.sh 发布 dist。
 
 用法：
   uv run --with pillow --with pyyaml scripts/daily.py            # 按 site.config.json 的 dailyCount
@@ -221,7 +221,9 @@ def main():
     git("add", "-A")
     git("commit", "-m", f"posts: {TODAY} +{len(ok)}")
     p = git("push")
-    log("已推送，GitHub Actions 部署中" if p.returncode == 0 else f"推送失败：{p.stderr[-500:]}")
+    d = subprocess.run(["zsh", "scripts/deploy.sh"], cwd=ROOT, capture_output=True, text=True)
+    log("已推送源码" if p.returncode == 0 else f"源码推送失败：{p.stderr[-500:]}")
+    log("已发布到 GitHub Pages" if d.returncode == 0 else f"发布失败：{d.stderr[-500:]}")
 
 
 if __name__ == "__main__":
