@@ -26,9 +26,7 @@ faq:
   a: 不能。NIPT属筛查而非确诊，阳性需要医生结合超声评估，必要时再做羊膜腔穿刺等诊断性检查。
 infographic: images/hong-kong-prenatal-check-process/infographic.webp
 photo: images/hong-kong-prenatal-check-process/photo.webp
-photoAlt: Blood bank testing Bernard Gotfryd
-photoCredit: libraryofcongress / CC0
-photoCreditUrl: https://www.rawpixel.com/image/6299202/blood-bank-testing-bernard-gotfryd-1924-2016
+photoAlt: 孕妇在香港做产前检查流程详解（2026）
 ---
 
 孕妇在香港做产前检查，通常按孕周分阶段进行：早孕确认并建档、孕11至13周左右做颈项透明层（NT）超声和唐氏综合征筛查、孕18至22周做结构超声、孕24至28周做糖耐量检测，期间配合常规验血。多数检查可在私家诊所或医疗机构预约，当天完成抽血和超声，报告几天到两周内可取。

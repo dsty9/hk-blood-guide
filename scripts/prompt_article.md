@@ -27,7 +27,6 @@ title: "文章标题"
 description: "120 字以内的 meta 描述，包含关键词"
 tags: ["标签1", "标签2", "标签3"]
 keypoints: ["要点1（25字内）", "要点2", "要点3", "要点4"]
-photo_query: "2-4 个英文单词的配图搜索词，如 blood test laboratory"
 faq:
   - q: "问题1"
     a: "回答1（80字内）"

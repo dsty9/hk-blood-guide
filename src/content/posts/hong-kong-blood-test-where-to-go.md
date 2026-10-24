@@ -25,9 +25,7 @@ faq:
   a: 常规生化、血常规项目通常当天至数个工作日；部分专项或孕期筛查需数日至两周，具体以机构告知为准。
 infographic: images/hong-kong-blood-test-where-to-go/infographic.webp
 photo: images/hong-kong-blood-test-where-to-go/photo.webp
-photoAlt: Abbott Laboratories, company logo. Location
-photoCredit: Unknown / CC0
-photoCreditUrl: https://www.rawpixel.com/image/6112238/photo-image-public-domain-logo-free
+photoAlt: 香港验血去哪里好？2026年机构类型选择指南
 ---
 
 香港验血没有统一的"最好"选择，关键看你的检查目的：常规体检、单项指标复查可以考虑私家化验所或体检中心；需要医生问诊和解读，或涉及孕期筛查，更适合私家诊所或私家医院；已有公立医院转介的，则按公立系统安排进行。下面按机构类型、费用、报告时间和选择要点逐一说明。

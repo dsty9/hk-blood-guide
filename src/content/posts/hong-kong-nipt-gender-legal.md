@@ -25,9 +25,7 @@ faq:
   a: 常见于高龄孕妇、唐筛提示风险升高、有染色体异常家族史等人群，是否适合请先由产科医生评估。
 infographic: images/hong-kong-nipt-gender-legal/infographic.webp
 photo: images/hong-kong-nipt-gender-legal/photo.webp
-photoAlt: Ambulance Chasing
-photoCredit: Unknown / CC0
-photoCreditUrl: https://www.rawpixel.com/image/5975668/ambulance-chasing
+photoAlt: 香港验血查胎儿性别合法吗？NIPT与法规须知（2026）
 ---
 
 简单说：香港的 NIPT（无创产前基因检测）是一项医学检测，目的是筛查胎儿常见染色体异常，不是用来“验性别”的服务。内地法律明确禁止非医学需要的胎儿性别鉴定，因此以查性别为目的的验血既不被鼓励，也可能带来法律风险。如果你关心的是胎儿健康，NIPT 才是它真正的价值所在。

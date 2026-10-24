@@ -26,7 +26,7 @@ QUEUE = ROOT / "data" / "keywords.txt"
 DONE = ROOT / "data" / "keywords_done.txt"
 LOGS = ROOT / "logs"
 CFG = json.loads((ROOT / "site.config.json").read_text())
-LOCAL = ROOT / "config.local.json"  # 不进 git，可放 pexelsApiKey
+LOCAL = ROOT / "config.local.json"  # 不进 git，本机覆盖配置
 if LOCAL.exists():
     CFG.update(json.loads(LOCAL.read_text()))
 CATEGORIES = ["验血项目", "价格费用", "机构选择", "孕期检查", "体检套餐", "流程攻略", "报告解读"]
@@ -156,10 +156,9 @@ def save(cat, kw, meta, body, valid_slugs, lock):
     if keypoints:
         images.make_infographic(d / "infographic.webp", meta["title"], keypoints, CFG["siteName"], slug)
         fm["infographic"] = f"images/{slug}/infographic.webp"
-    with lock:  # 图库请求串行，避免限流 + used_photos 竞争
-        photo = images.fetch_photo(d / "photo.webp", meta.get("photo_query") or "blood test", CFG.get("pexelsApiKey", ""))
-    if photo:
-        fm.update(photo=f"images/{slug}/photo.webp", photoAlt=photo[0], photoCredit=photo[1], photoCreditUrl=photo[2])
+    with lock:  # used_photos 计数串行
+        if images.pick_photo(d / "photo.webp", cat, slug):
+            fm.update(photo=f"images/{slug}/photo.webp", photoAlt=meta["title"])
     text = "---\n" + yaml.safe_dump(fm, allow_unicode=True, sort_keys=False, width=1000) + "---\n\n" + body + "\n"
     (POSTS / f"{slug}.md").write_text(text)
     return slug

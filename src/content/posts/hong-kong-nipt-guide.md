@@ -25,9 +25,7 @@ faq:
   a: 香港NIPT是医学检测，目的在于评估染色体风险。内地法律禁止非医学需要的胎儿性别鉴定，请勿以此为目的。
 infographic: images/hong-kong-nipt-guide/infographic.webp
 photo: images/hong-kong-nipt-guide/photo.webp
-photoAlt: Midwife prenatal care visit district
-photoCredit: Unknown / CC0
-photoCreditUrl: https://www.rawpixel.com/image/8759843/photo-image-public-domain-wood-person
+photoAlt: 香港NIPT无创产前检测2026：适用人群、费用与流程
 ---
 
 香港NIPT（无创产前检测）是抽取孕妇外周血，分析血液中胎儿游离DNA，用来评估胎儿患唐氏综合征等常见染色体异常的风险。一般孕10周后即可检测，只需抽血，对胎儿没有直接风险。但它是筛查而非确诊，结果异常时仍需进一步检查。

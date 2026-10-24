@@ -6,7 +6,6 @@
   "dailyCount": 10,
   "parallel": 6,
   "model": "sonnet",
-  "pexelsApiKey": "",
 
   "contact": {
     "phone": "13160833263",

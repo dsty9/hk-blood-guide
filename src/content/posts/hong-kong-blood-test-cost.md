@@ -22,9 +22,7 @@ faq:
   a: 常规项目多为当天至数个工作日，特殊项目和NIPT通常需要数个工作日至两周左右，以机构告知为准。
 infographic: images/hong-kong-blood-test-cost/infographic.webp
 photo: images/hong-kong-blood-test-cost/photo.webp
-photoAlt: Lab tube
-photoCredit: Unknown / CC0
-photoCreditUrl: https://www.rawpixel.com/image/3338342/free-photo-image-blood-collection-tube-cc0-creative-commons
+photoAlt: 香港验血多少钱？2026年常见项目费用区间一览
 ---
 
 香港验血的费用差异很大：基础血液检查（如血常规、血糖、血脂）通常在数百港币左右，包含多项指标的综合体检套餐约为一千至数千港币，孕期的NIPT（无创产前基因检测）则通常在数千至一万多港币。具体价格取决于项目数量、机构类型和是否含医生诊症，**以机构最新报价为准**。

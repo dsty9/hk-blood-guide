@@ -15,8 +15,6 @@ const posts = defineCollection({
     infographic: z.string().optional(),
     photo: z.string().optional(),
     photoAlt: z.string().optional(),
-    photoCredit: z.string().optional(),
-    photoCreditUrl: z.string().optional(),
     keypoints: z.array(z.string()).default([]),
     faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),

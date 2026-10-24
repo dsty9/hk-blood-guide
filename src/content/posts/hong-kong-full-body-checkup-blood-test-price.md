@@ -25,9 +25,7 @@ faq:
   a: 血糖、血脂等项目通常需空腹 8–12 小时，可少量饮水。请按预约机构的具体说明准备，必要药物是否服用先咨询医生。
 infographic: images/hong-kong-full-body-checkup-blood-test-price/infographic.webp
 photo: images/hong-kong-full-body-checkup-blood-test-price/photo.webp
-photoAlt: Health checkup, medical healthcare
-photoCredit: usembassyghana / CC0
-photoCreditUrl: https://www.rawpixel.com/image/8752598/photo-image-hand-public-domain-person
+photoAlt: 香港全身体检验血价格：2026年套餐区间与项目对比
 ---
 
 香港全身体检的验血部分，价格差异很大：基础套餐大致在 HK$800–2,500，标准套餐约 HK$2,500–6,000，含更多验血项目和影像检查的全面套餐可能达到 HK$6,000 以上。选择时不必一味追求项目多，应结合年龄、家族史和既往病史来选。以下费用均为参考区间，**以机构最新报价为准**。

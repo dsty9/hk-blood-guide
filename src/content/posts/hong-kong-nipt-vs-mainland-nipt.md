@@ -25,9 +25,7 @@ faq:
   a: 香港NIPT属医学检测，目的是评估胎儿染色体健康。内地法律禁止非医学需要的胎儿性别鉴定，请把关注点放在胎儿健康上。
 infographic: images/hong-kong-nipt-vs-mainland-nipt/infographic.webp
 photo: images/hong-kong-nipt-vs-mainland-nipt/photo.webp
-photoAlt: Free scientist running blood test
-photoCredit: Unknown / CC0
-photoCreditUrl: https://www.rawpixel.com/image/5911631/image-public-domain-medicine-free
+photoAlt: 香港NIPT和内地无创DNA区别：2026年对比指南
 ---
 
 香港NIPT和内地无创DNA，本质上是同一类检查：都是抽取孕妇一管外周血，分析血液中的胎儿游离DNA，用来筛查常见染色体异常。两者的区别主要不在“原理”，而在检测范围、套餐设置、费用、报告方式和就医流程。无论在哪里做，它都是筛查而不是确诊，结果需要结合B超和医生意见综合判断。

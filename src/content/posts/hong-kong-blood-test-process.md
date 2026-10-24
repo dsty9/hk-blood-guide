@@ -25,9 +25,7 @@ faq:
   a: 常规项目通常当天至数个工作日，特殊项目如部分基因或产前筛查可能需要更长时间。下单时请向机构确认出报告时间和领取方式。
 infographic: images/hong-kong-blood-test-process/infographic.webp
 photo: images/hong-kong-blood-test-process/photo.webp
-photoAlt: Blood bank testing Bernard Gotfryd
-photoCredit: libraryofcongress / CC0
-photoCreditUrl: https://www.rawpixel.com/image/6298462/blood-bank-testing-bernard-gotfryd-1924-2016
+photoAlt: 香港验血流程详解：预约到取报告全步骤（2026）
 ---
 
 香港验血的基本流程是：选定项目并预约，按要求准备（多数需空腹），携带证件到场登记缴费，抽血后等待报告，再按约定方式取报告并解读。整个现场环节通常不长，但前期选对项目、后期正确看待结果同样重要。下面按步骤梳理，并提示常见的注意点。

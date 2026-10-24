@@ -45,7 +45,6 @@ if (d.faq.length) jsonld.push(faqLd(d.faq));
     {hero && (
       <figure>
         <img src={url(hero)} alt={d.photo ? (d.photoAlt ?? d.title) : d.title} width="1200" height="630" />
-        {d.photo && d.photoCredit && <figcaption>图片：{d.photoCreditUrl ? <a href={d.photoCreditUrl} rel="nofollow noopener" target="_blank">{d.photoCredit}</a> : d.photoCredit}</figcaption>}
       </figure>
     )}
     {d.keypoints.length > 0 && (

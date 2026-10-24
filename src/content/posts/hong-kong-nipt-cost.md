@@ -25,9 +25,7 @@ faq:
   a: 阳性不等于确诊，需由产科医生评估，通常要做羊膜腔穿刺等诊断性检查确认，不必过度恐慌。
 infographic: images/hong-kong-nipt-cost/infographic.webp
 photo: images/hong-kong-nipt-cost/photo.webp
-photoAlt: U.S. Army Spc. Erica Corley
-photoCredit: U.S. Forest Service (source) / CC0
-photoCreditUrl: https://www.rawpixel.com/image/8729593/photo-image-public-domain-japan
+photoAlt: 香港无创DNA检测费用2026：价格区间与选择要点
 ---
 
 香港无创DNA检测（NIPT）的费用，基础版大致在 3,000–6,000 港元（约合人民币 2,700–5,500 元），检测范围更广的扩展版可能超过 10,000 港元。价格主要由检测项目、机构类型和是否含诊金、超声检查决定，**以机构最新报价为准**。

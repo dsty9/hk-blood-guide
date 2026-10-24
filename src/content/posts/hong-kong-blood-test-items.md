@@ -25,9 +25,7 @@ faq:
   a: 基础项目部分机构当天或次日可出，特殊项目、NIPT等需数天至两周。具体时间以机构告知为准。
 infographic: images/hong-kong-blood-test-items/infographic.webp
 photo: images/hong-kong-blood-test-items/photo.webp
-photoAlt: Blood bank testing Bernard Gotfryd
-photoCredit: libraryofcongress / CC0
-photoCreditUrl: https://www.rawpixel.com/image/6298480/blood-bank-testing-bernard-gotfryd-1924-2016
+photoAlt: 香港验血可以查什么？2026年常见项目与适用人群
 ---
 
 很多人来香港之前都会问：香港验血可以查什么？简单说，常见的血液检查大致分为基础血液项目、代谢与器官功能项目、肿瘤与传染病等专项，以及孕期相关检测。具体查哪些，应根据年龄、症状、家族史和医生建议来选，而不是越多越好。
