@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Logo from '../components/Logo.astro';
 import { SITE_NAME, TAGLINE, CONTACT, SERVICES, CFG, url, ctaHref } from '../site';
 
 interface Props {
@@ -46,7 +47,7 @@ const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p
 <body>
   <header class="site-header">
     <div class="container head">
-      <a class="logo" href={url()}><span class="drop">🩸</span>{SITE_NAME}</a>
+      <Logo />
       <input type="checkbox" id="menu" hidden />
       <label for="menu" class="burger" aria-label="菜单">☰</label>
       <nav>
@@ -59,7 +60,7 @@ const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p
   <footer class="site-footer">
     <div class="container foot">
       <div>
-        <div class="logo">{SITE_NAME}</div>
+        <Logo sub={false} />
         <p>{TAGLINE}。本站内容仅供健康科普参考，不构成医疗建议，检查与诊断请咨询注册医生；价格与政策以各机构最新公布为准。</p>
       </div>
       <div>

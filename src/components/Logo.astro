@@ -1,0 +1,16 @@
+---
+import { SITE_NAME, url } from '../site';
+interface Props { sub?: boolean }
+const { sub = true } = Astro.props;
+---
+<a class="logo" href={url()} aria-label={SITE_NAME}>
+  <svg class="mark" width="36" height="36" viewBox="0 0 64 64" aria-hidden="true">
+    <rect width="64" height="64" rx="16" fill="#c8323a" />
+    <path d="M32 10C25 21 18 29 18 38a14 14 0 0 0 28 0c0-9-7-17-14-28z" fill="#fff" />
+    <path d="M29 32h6v5h5v6h-5v5h-6v-5h-5v-6h5z" fill="#c8323a" />
+  </svg>
+  <span class="logo-text">
+    <span class="logo-name">{SITE_NAME}</span>
+    {sub && <span class="logo-sub">HK BLOOD TEST</span>}
+  </span>
+</a>

@@ -18,8 +18,12 @@ main { min-height: 70vh; }
 /* header */
 .site-header { background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
 .head { display: flex; align-items: center; gap: 24px; height: 64px; }
-.logo { font-weight: 800; font-size: 20px; color: var(--fg); white-space: nowrap; }
-.logo .drop { margin-right: 4px; }
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--fg); white-space: nowrap; }
+.logo:hover { text-decoration: none; }
+.logo .mark { flex: none; border-radius: 9px; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+.logo-name { font-weight: 800; font-size: 21px; letter-spacing: 1px; }
+.logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 2px; }
 .site-header nav { display: flex; gap: 4px; flex: 1; }
 .site-header nav a { color: var(--fg); padding: 6px 12px; border-radius: 8px; }
 .site-header nav a.on, .site-header nav a:hover { color: var(--accent); background: var(--accent-soft); text-decoration: none; }
@@ -132,7 +136,7 @@ figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
 /* footer */
 .site-footer { background: #1d2330; color: #b8bfcc; font-size: 14px; padding: 48px 0 0; }
 .foot { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 28px; }
-.foot .logo { color: #fff; margin-bottom: 8px; }
+.foot .logo { display: inline-flex; line-height: 1.15; color: #fff; margin-bottom: 12px; }
 .foot h4 { color: #fff; margin: 0 0 10px; font-size: 15px; }
 .foot a { display: block; color: #b8bfcc; line-height: 2; }
 .foot p { margin: 0 0 6px; }
