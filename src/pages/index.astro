@@ -4,7 +4,7 @@ import NewsGrid from '../components/NewsGrid.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { getCollection } from 'astro:content';
-import { allPosts, SITE_NAME, TAGLINE, CFG, SERVICES, CITIES, url, ctaHref, faqLd } from '../site';
+import { allPosts, SITE_NAME, TAGLINE, CFG, CONTACT, SERVICES, CITIES, url, ctaHref, faqLd } from '../site';
 
 const posts = await allPosts();
 const cityCount = (await getCollection('cities')).length || CITIES.length;
@@ -17,6 +17,11 @@ const stats = [
 const jsonld = [
   { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: new URL(url(), Astro.site).href, inLanguage: 'zh-CN' },
   faqLd(CFG.faq),
+  {
+    '@context': 'https://schema.org', '@type': 'LocalBusiness', name: SITE_NAME, url: new URL(url(), Astro.site).href,
+    ...(CONTACT.phone && { telephone: CONTACT.phone }),
+    ...(CONTACT.address && { address: { '@type': 'PostalAddress', streetAddress: CONTACT.address, addressRegion: '新界', addressCountry: 'HK' } }),
+  },
 ];
 ---
 <Base title={SITE_NAME} description={`${SITE_NAME}：${TAGLINE}。整理香港体检套餐、NIPT 产前筛查、肿瘤标志物、常规验血项目的费用区间、预约流程与报告解读。`} jsonld={jsonld} wide>
