@@ -1,0 +1,80 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { allPosts, catSlug, url, fmtDate, SITE_NAME, faqLd } from '../../site';
+
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post, related: posts.filter((p) => p.data.category === post.data.category && p.id !== post.id).slice(0, 6) },
+  }));
+}
+
+const { post, related } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+const pageUrl = new URL(url(`posts/${post.id}/`), Astro.site).href;
+const hero = d.photo ?? d.cover;
+const jsonld: object[] = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: d.title, description: d.description,
+    image: [d.cover, d.photo].filter(Boolean).map((i) => new URL(url(i!), Astro.site).href),
+    datePublished: d.date.toISOString(), dateModified: (d.updated ?? d.date).toISOString(),
+    inLanguage: 'zh-CN', mainEntityOfPage: pageUrl,
+    author: { '@type': 'Organization', name: SITE_NAME }, publisher: { '@type': 'Organization', name: SITE_NAME },
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首页', item: new URL(url(), Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: d.category, item: new URL(url(`category/${catSlug(d.category)}/`), Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: d.title },
+    ],
+  },
+];
+if (d.faq.length) jsonld.push(faqLd(d.faq));
+---
+<Base title={d.title} description={d.description} image={d.cover ? url(d.cover) : undefined} type="article" jsonld={jsonld}>
+  <article>
+    <div class="crumbs"><a href={url()}>首页</a> › <a href={url('news/')}>新闻资讯</a> › <a href={url(`category/${catSlug(d.category)}/`)}>{d.category}</a></div>
+    <h1>{d.title}</h1>
+    <div class="meta">发布 {fmtDate(d.date)}{d.updated && ` · 更新 ${fmtDate(d.updated)}`} · {d.category}</div>
+    {hero && (
+      <figure>
+        <img src={url(hero)} alt={d.photo ? (d.photoAlt ?? d.title) : d.title} width="1200" height="630" />
+        {d.photo && d.photoCredit && <figcaption>图片：{d.photoCreditUrl ? <a href={d.photoCreditUrl} rel="nofollow noopener" target="_blank">{d.photoCredit}</a> : d.photoCredit}</figcaption>}
+      </figure>
+    )}
+    {d.keypoints.length > 0 && (
+      <aside class="keypoints">
+        <strong>要点速览</strong>
+        <ul>{d.keypoints.map((k) => <li>{k}</li>)}</ul>
+      </aside>
+    )}
+    <div class="prose"><Content /></div>
+    {d.infographic && (
+      <figure>
+        <img src={url(d.infographic)} alt={`${d.title}要点图解`} loading="lazy" />
+        <figcaption>{d.title} · 要点图解</figcaption>
+      </figure>
+    )}
+    {d.faq.length > 0 && (
+      <section class="faq-sec">
+        <h2>常见问题</h2>
+        <Faq faq={d.faq} />
+      </section>
+    )}
+    <Cta />
+    {d.tags.length > 0 && <p class="tags">{d.tags.map((t) => <a>#{t}</a>)}</p>}
+    <p class="notice">本文仅供健康科普参考，不构成医疗建议。具体检查项目、费用和适用人群请以医生意见及机构最新公布为准。</p>
+    {related.length > 0 && (
+      <section class="related">
+        <h2>相关阅读</h2>
+        <ul>{related.map((r) => <li><a href={url(`posts/${r.id}/`)}>{r.data.title}</a></li>)}</ul>
+      </section>
+    )}
+  </article>
+</Base>

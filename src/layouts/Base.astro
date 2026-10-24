@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+import { SITE_NAME, TAGLINE, CONTACT, SERVICES, CFG, url, ctaHref } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonld?: object[];
+  noindex?: boolean;
+  wide?: boolean;
+}
+const { title, description, image, type = 'website', jsonld = [], noindex = false, wide = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const fullTitle = title === SITE_NAME ? `${SITE_NAME} - ${TAGLINE}` : `${title} - ${SITE_NAME}`;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const path = Astro.url.pathname;
+const nav = [
+  ['', '首页'], ['services/', '检查项目'], ['news/', '新闻资讯'], ['city/', '赴港攻略'], ['about/', '关于我们'], ['contact/', '联系我们'],
+];
+const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p)));
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex,follow" />}
+  <meta property="og:site_name" content={SITE_NAME} />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:locale" content="zh_CN" />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="alternate" type="application/rss+xml" title={SITE_NAME} href={url('rss.xml')} />
+  <link rel="sitemap" href={url('sitemap-index.xml')} />
+  <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+  {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head">
+      <a class="logo" href={url()}><span class="drop">🩸</span>{SITE_NAME}</a>
+      <input type="checkbox" id="menu" hidden />
+      <label for="menu" class="burger" aria-label="菜单">☰</label>
+      <nav>
+        {nav.map(([p, n]) => <a href={url(p)} class={active(p) ? 'on' : ''}>{n}</a>)}
+      </nav>
+      <a class="btn btn-sm head-cta" href={ctaHref()}>{CONTACT.phone ? `📞 ${CONTACT.phone}` : CFG.hero.cta}</a>
+    </div>
+  </header>
+  <main class={wide ? '' : 'container narrow'}><slot /></main>
+  <footer class="site-footer">
+    <div class="container foot">
+      <div>
+        <div class="logo">{SITE_NAME}</div>
+        <p>{TAGLINE}。本站内容仅供健康科普参考，不构成医疗建议，检查与诊断请咨询注册医生；价格与政策以各机构最新公布为准。</p>
+      </div>
+      <div>
+        <h4>检查项目</h4>
+        {SERVICES.map((s) => <a href={url(`services/${s.slug}/`)}>{s.name}</a>)}
+      </div>
+      <div>
+        <h4>快速导航</h4>
+        <a href={url('news/')}>新闻资讯</a><a href={url('city/')}>赴港攻略</a><a href={url('about/')}>关于我们</a>
+        <a href={url('contact/')}>联系我们</a><a href={url('disclaimer/')}>免责声明</a><a href={url('sitemap-index.xml')}>网站地图</a>
+      </div>
+      <div>
+        <h4>联系方式</h4>
+        {CONTACT.phone && <p>电话：<a href={`tel:${CONTACT.phone}`}>{CONTACT.phone}</a></p>}
+        {CONTACT.wechat && <p>微信：{CONTACT.wechat}</p>}
+        {CONTACT.hours && <p>时间：{CONTACT.hours}</p>}
+        {CONTACT.address && <p>地址：{CONTACT.address}</p>}
+        {CONTACT.wechatQr && <img class="qr" src={url(CONTACT.wechatQr)} alt="微信二维码" width="120" height="120" />}
+      </div>
+    </div>
+    <div class="container copy">© {new Date().getFullYear()} {SITE_NAME} · 本站不提供任何违反内地或香港法律法规的服务</div>
+  </footer>
+  <div class="mobile-bar">
+    {CONTACT.phone && <a href={`tel:${CONTACT.phone}`}>📞 电话咨询</a>}
+    <a href={url('contact/')} class="primary">💬 {CONTACT.wechat ? '微信咨询' : '在线咨询'}</a>
+  </div>
+</body>
+</html>

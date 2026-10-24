@@ -1,0 +1,36 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../../layouts/Base.astro';
+import NewsGrid from '../../../components/NewsGrid.astro';
+import { allPosts, CATEGORIES, url } from '../../../site';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await allPosts();
+  return Object.entries(CATEGORIES).flatMap(([cat, name]) =>
+    paginate(posts.filter((p) => p.data.category === name), { params: { cat }, props: { name, cat }, pageSize: 18 })
+  );
+}) satisfies GetStaticPaths;
+
+const { page, name, cat } = Astro.props;
+const jsonld = [{
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首页', item: new URL(url(), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: '新闻资讯', item: new URL(url('news/'), Astro.site).href },
+    { '@type': 'ListItem', position: 3, name },
+  ],
+}];
+---
+<Base title={`香港${name}${page.currentPage > 1 ? ` 第${page.currentPage}页` : ''}`} description={`香港验血「${name}」相关文章合集，共 ${page.total} 篇。`} jsonld={jsonld} noindex={page.total === 0}>
+  <div class="crumbs"><a href={url()}>首页</a> › <a href={url('news/')}>新闻资讯</a> › {name}</div>
+  <h1>{name}</h1>
+  <nav class="tabs">
+    <a href={url('news/')}>全部</a>
+    {Object.entries(CATEGORIES).map(([s, n]) => <a class={s === cat ? 'on' : ''} href={url(`category/${s}/`)}>{n}</a>)}
+  </nav>
+  {page.total === 0 ? <p>该分类文章即将上线。</p> : <NewsGrid posts={page.data} />}
+  <nav class="pager">
+    {page.url.prev ? <a href={page.url.prev}>← 上一页</a> : <span />}
+    {page.url.next ? <a href={page.url.next}>下一页 →</a> : <span />}
+  </nav>
+</Base>

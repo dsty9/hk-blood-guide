@@ -1,0 +1,10 @@
+---
+import Base from '../../layouts/Base.astro';
+import { CITIES, url } from '../../site';
+---
+<Base title="赴港验血攻略" description="从全国各地出发去香港验血、体检的交通路线、通关证件与行程安排攻略。">
+  <div class="crumbs"><a href={url()}>首页</a> › 赴港攻略</div>
+  <h1>各地赴港验血攻略</h1>
+  <p class="meta">选择你的出发地，查看交通、证件和行程建议</p>
+  <div class="city-grid" style="justify-content:flex-start;margin-top:20px">{CITIES.map((c) => <a href={url(`city/${c.slug}/`)}>{c.name}</a>)}</div>
+</Base>

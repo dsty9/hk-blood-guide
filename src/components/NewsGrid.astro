@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url, fmtDate } from '../site';
+interface Props { posts: CollectionEntry<'posts'>[] }
+const { posts } = Astro.props;
+---
+<div class="news-grid">
+  {posts.map((p) => (
+    <a class="news-item" href={url(`posts/${p.id}/`)}>
+      <img src={url(p.data.photo ?? p.data.cover ?? '')} alt={p.data.title} width="1200" height="630" loading="lazy" />
+      <div class="body">
+        <div class="date">{fmtDate(p.data.date)} · {p.data.category}</div>
+        <h3>{p.data.title}</h3>
+        <p>{p.data.description}</p>
+      </div>
+    </a>
+  ))}
+</div>

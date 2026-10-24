@@ -1,0 +1,23 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import NewsGrid from '../../components/NewsGrid.astro';
+import { allPosts, CATEGORIES, url } from '../../site';
+
+export const getStaticPaths = (async ({ paginate }) => paginate(await allPosts(), { pageSize: 18 })) satisfies GetStaticPaths;
+const { page } = Astro.props;
+---
+<Base title={`新闻资讯${page.currentPage > 1 ? ` 第${page.currentPage}页` : ''}`} description="香港验血、体检套餐、NIPT 产前筛查、验血报告解读等最新资讯与攻略。">
+  <div class="crumbs"><a href={url()}>首页</a> › 新闻资讯</div>
+  <h1>新闻资讯</h1>
+  <nav class="tabs">
+    <a class="on" href={url('news/')}>全部</a>
+    {Object.entries(CATEGORIES).map(([s, n]) => <a href={url(`category/${s}/`)}>{n}</a>)}
+  </nav>
+  <NewsGrid posts={page.data} />
+  <nav class="pager">
+    {page.url.prev ? <a href={page.url.prev}>← 上一页</a> : <span />}
+    <span class="meta">第 {page.currentPage} / {page.lastPage} 页</span>
+    {page.url.next ? <a href={page.url.next}>下一页 →</a> : <span />}
+  </nav>
+</Base>

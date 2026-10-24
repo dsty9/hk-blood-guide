@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT, SITE_NAME, url } from '../site';
+const empty = !CONTACT.phone && !CONTACT.wechat;
+---
+<Base title="联系我们" description={`联系${SITE_NAME}，咨询香港验血、体检项目与赴港流程。`}>
+  <div class="crumbs"><a href={url()}>首页</a> › 联系我们</div>
+  <h1>联系我们</h1>
+  <div class="cards" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-top: 20px;">
+    {CONTACT.phone && <a class="card" href={`tel:${CONTACT.phone}`}><div class="ico">📞</div><h3>电话咨询</h3><p>{CONTACT.phone}</p></a>}
+    {CONTACT.wechat && <div class="card"><div class="ico">💬</div><h3>微信咨询</h3><p>{CONTACT.wechat}</p>{CONTACT.wechatQr && <img src={url(CONTACT.wechatQr)} alt="微信二维码" width="160" height="160" />}</div>}
+    {CONTACT.hours && <div class="card"><div class="ico">🕘</div><h3>服务时间</h3><p>{CONTACT.hours}</p></div>}
+    {CONTACT.address && <div class="card"><div class="ico">📍</div><h3>地址</h3><p>{CONTACT.address}</p></div>}
+  </div>
+  {empty && <p class="notice">联系方式即将上线。</p>}
+  <p class="notice">本站提供香港验血与体检的信息咨询，不提供诊断，不提供非医学需要的胎儿性别鉴定或跨境寄送血样等违法服务。</p>
+</Base>

@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import { SERVICES, url } from '../../site';
+---
+<Base title="检查项目" description="香港体检套餐、NIPT 产前筛查、肿瘤标志物、常规验血、报告解读与赴港攻略，按需求查找检查说明。">
+  <div class="crumbs"><a href={url()}>首页</a> › 检查项目</div>
+  <h1>检查项目</h1>
+  <div class="cards" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+    {SERVICES.map((s) => (
+      <a class="card" href={url(`services/${s.slug}/`)}><div class="ico">{s.icon}</div><h3>{s.name}</h3><p>{s.desc}</p><span class="more">了解详情 →</span></a>
+    ))}
+  </div>
+  <Cta />
+</Base>

@@ -1,0 +1,41 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NewsGrid from '../../components/NewsGrid.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { SERVICES, allPosts, catSlug, url, faqLd } from '../../site';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const entry = await getEntry('services', s.slug);
+const Content = entry ? (await render(entry)).Content : null;
+const posts = (await allPosts()).filter((p) => p.data.category === s.category).slice(0, 9);
+const title = entry?.data.title ?? `香港${s.name}`;
+const faq = entry?.data.faq ?? [];
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首页', item: new URL(url(), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: '检查项目', item: new URL(url('services/'), Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: s.name },
+  ] },
+  ...(faq.length ? [faqLd(faq)] : []),
+];
+---
+<Base title={title} description={entry?.data.description ?? s.desc} jsonld={jsonld}>
+  <div class="crumbs"><a href={url()}>首页</a> › <a href={url('services/')}>检查项目</a> › {s.name}</div>
+  <h1>{s.icon} {title}</h1>
+  <p class="meta">{s.desc}</p>
+  {Content && <div class="prose"><Content /></div>}
+  <Cta title={`想了解${s.name}？`} />
+  {faq.length > 0 && <section class="faq-sec"><h2>常见问题</h2><Faq faq={faq} /></section>}
+  {posts.length > 0 && (
+    <section>
+      <h2 style="border-left:4px solid var(--accent);padding-left:10px">相关资讯</h2>
+      <NewsGrid posts={posts} />
+      <p class="center"><a href={url(`category/${catSlug(s.category)}/`)}>查看全部「{s.category}」文章 →</a></p>
+    </section>
+  )}
+</Base>

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+logs/
+data/photo_cache/
+.DS_Store
+config.local.json

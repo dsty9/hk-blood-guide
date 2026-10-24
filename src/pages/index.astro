@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsGrid from '../components/NewsGrid.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { getCollection } from 'astro:content';
+import { allPosts, SITE_NAME, TAGLINE, CFG, SERVICES, CITIES, url, ctaHref, faqLd } from '../site';
+
+const posts = await allPosts();
+const cityCount = (await getCollection('cities')).length || CITIES.length;
+const stats = [
+  [`${posts.length}+`, '篇检查科普'],
+  [`${SERVICES.length}大类`, '检查项目指南'],
+  [`${cityCount}个`, '出发地赴港攻略'],
+  ['1天', '可往返完成检查'],
+];
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: new URL(url(), Astro.site).href, inLanguage: 'zh-CN' },
+  faqLd(CFG.faq),
+];
+---
+<Base title={SITE_NAME} description={`${SITE_NAME}：${TAGLINE}。整理香港体检套餐、NIPT 产前筛查、肿瘤标志物、常规验血项目的费用区间、预约流程与报告解读。`} jsonld={jsonld} wide>
+  <section class="hero">
+    <div class="container">
+      <h1>{CFG.hero.title}</h1>
+      <p>{CFG.hero.subtitle}</p>
+      <a class="btn" href={ctaHref()}>{CFG.hero.cta}</a>
+      <a class="btn btn-ghost" href={url('services/')}>查看检查项目</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="stats">{stats.map(([b, s]) => <div class="stat"><b>{b}</b><span>{s}</span></div>)}</div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="sec-head"><h2>检查流程</h2><p>四步完成赴港检查</p></div>
+      <div class="steps">{CFG.steps.map((s) => <div class="step"><h3>{s.title}</h3><p>{s.desc}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head"><h2>检查项目</h2><p>按需求找到对应的检查说明</p></div>
+      <div class="cards">
+        {SERVICES.map((s) => (
+          <a class="card" href={url(`services/${s.slug}/`)}>
+            <div class="ico">{s.icon}</div><h3>{s.name}</h3><p>{s.desc}</p><span class="more">了解详情 →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="sec-head"><h2>出发城市</h2><p>各地赴港检查交通与行程攻略</p></div>
+      <div class="city-grid">{CITIES.map((c) => <a href={url(`city/${c.slug}/`)}>{c.name}</a>)}</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head"><h2>最新资讯</h2><p>香港验血、体检与报告解读</p></div>
+      <NewsGrid posts={posts.slice(0, 9)} />
+      <div class="center"><a class="btn" href={url('news/')}>查看更多资讯</a></div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="sec-head"><h2>常见问题</h2><p>赴港检查前最常被问到的问题</p></div>
+      <Faq faq={CFG.faq} />
+    </div>
+  </section>
+
+  <Cta band />
+</Base>

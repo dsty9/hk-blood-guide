@@ -1,0 +1,35 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NewsGrid from '../../components/NewsGrid.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { CITIES, allPosts, url, faqLd } from '../../site';
+
+export function getStaticPaths() {
+  return CITIES.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const entry = await getEntry('cities', c.slug);
+const Content = entry ? (await render(entry)).Content : null;
+const posts = (await allPosts()).filter((p) => p.data.category === '流程攻略').slice(0, 6);
+const title = entry?.data.title ?? `${c.name}去香港验血攻略`;
+const faq = entry?.data.faq ?? [];
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首页', item: new URL(url(), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: '赴港攻略', item: new URL(url('city/'), Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: c.name },
+  ] },
+  ...(faq.length ? [faqLd(faq)] : []),
+];
+---
+<Base title={title} description={entry?.data.description ?? `从${c.name}出发去香港验血、体检的交通、证件与行程攻略。`} jsonld={jsonld} noindex={!entry}>
+  <div class="crumbs"><a href={url()}>首页</a> › <a href={url('city/')}>赴港攻略</a> › {c.name}</div>
+  <h1>{title}</h1>
+  {Content ? <div class="prose"><Content /></div> : <p>攻略整理中。</p>}
+  <Cta title={`从${c.name}去香港检查，行程怎么排？`} />
+  {faq.length > 0 && <section class="faq-sec"><h2>常见问题</h2><Faq faq={faq} /></section>}
+  {posts.length > 0 && <section><h2 style="border-left:4px solid var(--accent);padding-left:10px">流程攻略</h2><NewsGrid posts={posts} /></section>}
+  <p class="meta" style="margin-top:24px">其他出发地：{CITIES.filter((x) => x.slug !== c.slug).map((x) => <a href={url(`city/${x.slug}/`)} style="margin-right:10px">{x.name}</a>)}</p>
+</Base>

@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE_NAME } from '../site';
+---
+<Base title="关于本站" description={`关于${SITE_NAME}`}>
+  <h1>关于本站</h1>
+  <div class="prose">
+    <p>{SITE_NAME}整理在香港进行验血、体检及孕期检查的公开资料，包括检查项目说明、参考费用区间、预约与报告流程，帮助读者在就医前做好准备。</p>
+    <p>本站内容由编辑借助 AI 工具整理撰写，并参考香港卫生署、医院管理局及各医疗机构公开资料。医疗信息更新较快，如发现错误欢迎指正。</p>
+  </div>
+</Base>

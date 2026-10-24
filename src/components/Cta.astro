@@ -1,0 +1,18 @@
+---
+import { CONTACT, CFG, ctaHref } from '../site';
+interface Props { band?: boolean; title?: string }
+const { band = false, title = '不确定该做哪些检查？' } = Astro.props;
+const label = CONTACT.phone ? `📞 ${CONTACT.phone}` : CFG.hero.cta;
+---
+{band ? (
+  <section class="cta-band">
+    <h2>{title}</h2>
+    <p>告诉我们你的年龄、需求和出发城市，帮你理清项目、费用和流程{CONTACT.wechat && `（微信：${CONTACT.wechat}）`}</p>
+    <a class="btn" href={ctaHref()}>{label}</a>
+  </section>
+) : (
+  <div class="inline-cta">
+    <p><b>{title}</b><br />{CONTACT.wechat ? `添加微信 ${CONTACT.wechat}，一对一解答` : '联系我们，一对一解答项目、费用与流程'}</p>
+    <a class="btn btn-sm" href={ctaHref()}>{label}</a>
+  </div>
+)}
