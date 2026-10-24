@@ -1,18 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
-import NewsGrid from '../components/NewsGrid.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
-import { getCollection } from 'astro:content';
-import { allPosts, SITE_NAME, TAGLINE, CFG, CONTACT, SERVICES, CITIES, url, ctaHref, faqLd } from '../site';
+import WeekCalc from '../components/WeekCalc.astro';
+import { allPosts, SITE_NAME, TAGLINE, CFG, CONTACT, CITIES, STORES, url, ctaHref, faqLd, fmtDate } from '../site';
 
 const posts = await allPosts();
-const cityCount = (await getCollection('cities')).length || CITIES.length;
-const stats = [
-  [`${posts.length}+`, '篇检查科普'],
-  [`${SERVICES.length}大类`, '检查项目指南'],
-  [`${cityCount}个`, '出发地赴港攻略'],
-  ['1天', '可往返完成检查'],
+const left = posts.filter((p) => ['孕期检查', '验血项目'].includes(p.data.category)).slice(0, 8);
+const right = posts.filter((p) => ['流程攻略', '报告解读', '价格费用', '机构选择', '体检套餐'].includes(p.data.category)).slice(0, 8);
+const wechatBtn = CONTACT.wechat ? { 'data-copy': CONTACT.wechat, href: url('contact/') } : { href: ctaHref() };
+const labs = [
+  ['labs/', 'HOKLAS 认可是什么', '香港实验所认可计划的含义，以及怎么查一家化验所的认可范围'],
+  ['labs/', '医务化验师注册', '香港医务化验师需要注册执业，如何在公开名册核实'],
+  ['verify/', '报告怎么验真', '核对报告编号、化验所名称与联系方式，向化验所直接查询'],
+  ['verify/', '避开常见陷阱', '只收定金不出报告、价格不透明、跨境寄样等风险'],
 ];
 const jsonld = [
   { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: new URL(url(), Astro.site).href, inLanguage: 'zh-CN' },
@@ -24,37 +25,32 @@ const jsonld = [
   },
 ];
 ---
-<Base title={SITE_NAME} description={`${SITE_NAME}：${TAGLINE}。整理香港体检套餐、NIPT 产前筛查、肿瘤标志物、常规验血项目的费用区间、预约流程与报告解读。`} jsonld={jsonld} wide>
+<Base title={SITE_NAME} description={`${SITE_NAME}：${TAGLINE}。NIPT 产前筛查、早期防癌筛查、精密体检预约咨询，到店付款、价格透明，附赴港过关路线与报告验真指南。`} jsonld={jsonld} wide>
   <section class="hero">
-    <div class="container">
-      <h1>{CFG.hero.title}</h1>
-      <p>{CFG.hero.subtitle}</p>
-      <a class="btn" href={ctaHref()}>{CFG.hero.cta}</a>
-      <a class="btn btn-ghost" href={url('services/')}>查看检查项目</a>
+    <div class="container hero-split">
+      <div>
+        <h1>{CFG.hero.title}</h1>
+        <p>{CFG.hero.subtitle}</p>
+        <a class="btn" {...wechatBtn}>💬 {CFG.hero.cta}</a>
+        <a class="btn btn-ghost" href={url('prices/')}>{CFG.hero.cta2}</a>
+      </div>
+      <WeekCalc />
     </div>
   </section>
+
+  <div class="trust-strip"><div class="container">{CFG.trust.map((t) => <span>{t}</span>)}</div></div>
 
   <section class="section">
     <div class="container">
-      <div class="stats">{stats.map(([b, s]) => <div class="stat"><b>{b}</b><span>{s}</span></div>)}</div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="container">
-      <div class="sec-head"><h2>检查流程</h2><p>四步完成赴港检查</p></div>
-      <div class="steps">{CFG.steps.map((s) => <div class="step"><h3>{s.title}</h3><p>{s.desc}</p></div>)}</div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="sec-head"><h2>检查项目</h2><p>按需求找到对应的检查说明</p></div>
+      <div class="sec-head"><h2>热门检查项目</h2><p>按需求选择，顾问帮你确认是否适合</p></div>
       <div class="cards">
-        {SERVICES.map((s) => (
-          <a class="card" href={url(`services/${s.slug}/`)}>
-            <div class="ico">{s.icon}</div><h3>{s.name}</h3><p>{s.desc}</p><span class="more">了解详情 →</span>
-          </a>
+        {CFG.cards.map((c) => (
+          <div class="pcard">
+            <div class="no">{c.no}</div>
+            <h3>{c.title}</h3>
+            <ul>{c.points.map((p) => <li>{p}</li>)}</ul>
+            <a class="btn btn-sm" href={url(c.link)}>{c.cta}</a>
+          </div>
         ))}
       </div>
     </div>
@@ -62,20 +58,50 @@ const jsonld = [
 
   <section class="section alt">
     <div class="container">
-      <div class="sec-head"><h2>出发城市</h2><p>各地赴港检查交通与行程攻略</p></div>
-      <div class="city-grid">{CITIES.map((c) => <a href={url(`city/${c.slug}/`)}>{c.name}</a>)}</div>
+      <div class="sec-head"><h2>选对化验所 · 看懂真报告</h2><p>赴港检查前，先学会自己核实资质和报告</p></div>
+      <div class="lab-grid">
+        {labs.map(([href, t, d]) => <a class="lab" href={url(href)}><b>{t}</b><span>{d}</span></a>)}
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="sec-head"><h2>最新资讯</h2><p>香港验血、体检与报告解读</p></div>
-      <NewsGrid posts={posts.slice(0, 9)} />
-      <div class="center"><a class="btn" href={url('news/')}>查看更多资讯</a></div>
+      <div class="sec-head"><h2>门店与过关路线</h2><p>到店检查、到店付款</p></div>
+      <div class="stores">
+        {STORES.map((s) => (
+          <div class="store">
+            {s.photo && <img src={url(s.photo)} alt={s.name} width="1200" height="630" loading="lazy" />}
+            <div class="body">
+              <h3>📍 {s.name}</h3>
+              <p>{s.address}</p>
+              <p>🚇 {s.route}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="center meta">各地出发路线：{CITIES.slice(0, 12).map((c) => <a href={url(`city/${c.slug}/`)} style="margin:0 6px">{c.name}</a>)} <a href={url('city/')}>更多 →</a></p>
     </div>
   </section>
 
   <section class="section alt">
+    <div class="container">
+      <div class="sec-head"><h2>最新资讯</h2><p>孕期检查、验血项目、赴港与报告解读</p></div>
+      <div class="two-col">
+        <div class="col-list">
+          <h3>孕期与验血项目 <a href={url('category/yunqi/')}>更多 →</a></h3>
+          <ul>{left.map((p) => <li><a href={url(`posts/${p.id}/`)}>{p.data.title}</a><span>{fmtDate(p.data.date).slice(5)}</span></li>)}</ul>
+        </div>
+        <div class="col-list">
+          <h3>赴港过关与报告解读 <a href={url('category/liucheng/')}>更多 →</a></h3>
+          <ul>{right.map((p) => <li><a href={url(`posts/${p.id}/`)}>{p.data.title}</a><span>{fmtDate(p.data.date).slice(5)}</span></li>)}</ul>
+        </div>
+      </div>
+      <div class="center"><a class="btn" href={url('news/')}>查看全部资讯</a></div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container">
       <div class="sec-head"><h2>常见问题</h2><p>赴港检查前最常被问到的问题</p></div>
       <Faq faq={CFG.faq} />

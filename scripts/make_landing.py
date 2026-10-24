@@ -75,5 +75,12 @@ for slug, name in CFG["cities"]:
 for s in CFG["services"]:
     jobs.append((ROOT / "src/content/services" / f"{s['slug']}.md", SERVICE.format(site=CFG["siteName"], **s)))
 
+GUIDES = {
+    "labs": "香港医务化验所认证指南：HOKLAS 认可与医务化验师注册怎么查。内容覆盖：香港认可处（HKAS）与 HOKLAS 认可计划是什么、医学化验所认可（如 ISO 15189）的意义、怎么在官方名录里查一家化验所的认可范围、医务化验师管理委员会与执业注册怎么核实、私营化验所与诊所/医院的关系、选择化验所时要看的几点。必须用 WebSearch 核实机构名称和制度，不要编造网址；不点名推荐或评价任何具体私营机构。",
+    "verify": "香港验血报告验真指南：怎么判断一份化验报告是否真实可靠。内容覆盖：一份正规报告应包含哪些要素（化验所名称、报告编号、采样/报告时间、检测方法、参考区间、签发人等）、如何直接联系化验所核实（用化验所官方公布的联系方式而非中介提供的）、常见风险信号（只给截图、无报告编号、价格异常、要求寄送血样等）、遇到问题去哪里投诉（如香港消费者委员会、卫生署）。必须用 WebSearch 核实，不要编造网址；不点名任何具体私营机构。",
+}
+for slug, desc in GUIDES.items():
+    jobs.append((ROOT / "src/content/guides" / f"{slug}.md", f"你在为网站「{CFG['siteName']}」写科普落地页：{desc}\n" + COMMON))
+
 with ThreadPoolExecutor(CFG.get("parallel", 4)) as ex:
     list(ex.map(lambda j: gen(*j), jobs))

@@ -40,3 +40,7 @@ export const faqLd = (faq: { q: string; a: string }[]) => ({
   '@context': 'https://schema.org', '@type': 'FAQPage',
   mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 });
+
+export const NAV = cfg.nav as [string, string][];
+export const STORES = cfg.stores;
+export const PRICES = cfg.prices;

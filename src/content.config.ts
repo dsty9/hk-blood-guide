@@ -30,4 +30,4 @@ const landing = (dir: string) => defineCollection({
   }),
 });
 
-export const collections = { posts, cities: landing('cities'), services: landing('services') };
+export const collections = { posts, cities: landing('cities'), services: landing('services'), guides: landing('guides') };

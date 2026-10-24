@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
-import { SITE_NAME, TAGLINE, CONTACT, SERVICES, CFG, url, ctaHref } from '../site';
+import SiteScripts from '../components/SiteScripts.astro';
+import { SITE_NAME, TAGLINE, CONTACT, SERVICES, CFG, NAV, url, ctaHref } from '../site';
 
 interface Props {
   title: string;
@@ -17,10 +18,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const fullTitle = title === SITE_NAME ? `${SITE_NAME} - ${TAGLINE}` : `${title} - ${SITE_NAME}`;
 const ogImage = image ? new URL(image, Astro.site).href : undefined;
 const path = Astro.url.pathname;
-const nav = [
-  ['', '首页'], ['services/', '检查项目'], ['news/', '新闻资讯'], ['city/', '赴港攻略'], ['about/', '关于我们'], ['contact/', '联系我们'],
-];
 const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p)));
+const wechatBtn = CONTACT.wechat ? { 'data-copy': CONTACT.wechat, href: url('contact/') } : { href: ctaHref() };
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -45,15 +44,21 @@ const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p
   {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
 </head>
 <body>
+  <div class="topbar">
+    <div class="container topbar-in">
+      <span class="topbar-items">{CFG.topbar.map((t) => <span>✔ {t}</span>)}</span>
+      <span class="zh-switch"><button type="button" data-zh="cn" class="on">简</button><button type="button" data-zh="hk">繁</button></span>
+    </div>
+  </div>
   <header class="site-header">
     <div class="container head">
       <Logo />
       <input type="checkbox" id="menu" hidden />
       <label for="menu" class="burger" aria-label="菜单">☰</label>
       <nav>
-        {nav.map(([p, n]) => <a href={url(p)} class={active(p) ? 'on' : ''}>{n}</a>)}
+        {NAV.map(([p, n]) => <a href={url(p)} class={active(p) ? 'on' : ''}>{n}</a>)}
       </nav>
-      <a class="btn btn-sm head-cta" href={ctaHref()}>{CONTACT.phone ? `📞 ${CONTACT.phone}` : CFG.hero.cta}</a>
+      <a class="btn btn-sm head-cta" {...wechatBtn}>💬 微信预约</a>
     </div>
   </header>
   <main class={wide ? '' : 'container narrow'}><slot /></main>
@@ -70,7 +75,7 @@ const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p
       <div>
         <h4>快速导航</h4>
         <a href={url('news/')}>新闻资讯</a><a href={url('city/')}>赴港攻略</a><a href={url('about/')}>关于我们</a>
-        <a href={url('contact/')}>联系我们</a><a href={url('disclaimer/')}>免责声明</a><a href={url('sitemap-index.xml')}>网站地图</a>
+        <a href={url('prices/')}>价格表</a><a href={url('contact/')}>联系我们</a><a href={url('disclaimer/')}>免责声明</a><a href={url('privacy/')}>隐私政策</a><a href={url('sitemap-index.xml')}>网站地图</a>
       </div>
       <div>
         <h4>联系方式</h4>
@@ -78,14 +83,17 @@ const active = (p: string) => (p === '' ? path === url() : path.startsWith(url(p
         {CONTACT.wechat && <p>微信：{CONTACT.wechat}</p>}
         {CONTACT.hours && <p>时间：{CONTACT.hours}</p>}
         {CONTACT.address && <p>地址：{CONTACT.address}</p>}
+        {CFG.license && <p>牌照：{CFG.license}</p>}
         {CONTACT.wechatQr && <img class="qr" src={url(CONTACT.wechatQr)} alt="微信二维码" width="120" height="120" />}
       </div>
     </div>
     <div class="container copy">© {new Date().getFullYear()} {SITE_NAME} · 本站不提供任何违反内地或香港法律法规的服务</div>
   </footer>
   <div class="mobile-bar">
-    {CONTACT.phone && <a href={`tel:${CONTACT.phone}`}>📞 电话咨询</a>}
-    <a href={url('contact/')} class="primary">💬 {CONTACT.wechat ? '微信咨询' : '在线咨询'}</a>
+    {CONTACT.phone && <a href={`tel:${CONTACT.phone}`}>📞 电话</a>}
+    <a href={url('prices/')}>💰 价格表</a>
+    <a class="primary" {...wechatBtn}>💬 复制顾问微信</a>
   </div>
+  <SiteScripts />
 </body>
 </html>

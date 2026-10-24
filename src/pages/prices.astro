@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { PRICES, CONTACT, url, ctaHref } from '../site';
+const wechatBtn = CONTACT.wechat ? { 'data-copy': CONTACT.wechat, href: url('contact/') } : { href: ctaHref() };
+---
+<Base title="港币价格表" description="香港 NIPT 产前筛查、常规验血、肿瘤标志物、HPV 与精密体检套餐港币价格表，到店付款，价格透明。">
+  <div class="crumbs"><a href={url()}>首页</a> › 价格表</div>
+  <h1>港币价格表</h1>
+  <p class="meta">到店检查、到店付款。价格如有调整以顾问最新报价为准。</p>
+  <table class="price-table">
+    <thead><tr><th>检查项目</th><th>说明</th><th>价格（港币）</th></tr></thead>
+    <tbody>
+      {PRICES.map((p) => <tr><td>{p.item}</td><td>{p.note}</td><td class="p">{p.price || '咨询顾问'}</td></tr>)}
+    </tbody>
+  </table>
+  <p style="margin-top:20px"><a class="btn" {...wechatBtn}>💬 复制顾问微信，获取最新报价</a></p>
+  <Cta title="不知道该选哪个套餐？" />
+</Base>

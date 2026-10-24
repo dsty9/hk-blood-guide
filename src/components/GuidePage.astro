@@ -1,0 +1,26 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Faq from './Faq.astro';
+import Cta from './Cta.astro';
+import { url, faqLd } from '../site';
+interface Props { slug: string; name: string; fallback: string }
+const { slug, name, fallback } = Astro.props;
+const entry = await getEntry('guides', slug);
+const Content = entry ? (await render(entry)).Content : null;
+const faq = entry?.data.faq ?? [];
+const jsonld = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首页', item: new URL(url(), Astro.site).href },
+    { '@type': 'ListItem', position: 2, name },
+  ] },
+  ...(faq.length ? [faqLd(faq)] : []),
+];
+---
+<Base title={entry?.data.title ?? name} description={entry?.data.description ?? fallback} jsonld={jsonld} noindex={!entry}>
+  <div class="crumbs"><a href={url()}>首页</a> › {name}</div>
+  <h1>{entry?.data.title ?? name}</h1>
+  {Content ? <div class="prose"><Content /></div> : <p>{fallback}</p>}
+  <Cta title="不确定化验所或报告是否可靠？" />
+  {faq.length > 0 && <section class="faq-sec"><h2>常见问题</h2><Faq faq={faq} /></section>}
+</Base>

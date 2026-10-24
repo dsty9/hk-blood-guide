@@ -1,0 +1,58 @@
+---
+// 全站交互：复制微信、繁/简切换（繁体用 OpenCC 按需加载，选择记在 localStorage）
+---
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script is:inline>
+(function () {
+  var KEY = 'zh-variant';
+  var toast = document.getElementById('toast');
+  function show(msg) {
+    toast.textContent = msg; toast.classList.add('on');
+    clearTimeout(show.t); show.t = setTimeout(function () { toast.classList.remove('on'); }, 2200);
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    e.preventDefault();
+    var text = btn.getAttribute('data-copy');
+    var done = function () { show('微信号 ' + text + ' 已复制，打开微信添加好友即可'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.prompt('复制微信号：', text); });
+    else window.prompt('复制微信号：', text);
+  });
+
+  function load(cb) {
+    if (window.OpenCC) return cb();
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/cn2t.js';
+    s.onload = cb;
+    s.onerror = function () { show('繁体转换加载失败，请稍后再试'); };
+    document.head.appendChild(s);
+  }
+  function toTrad() {
+    load(function () {
+      var conv = window.OpenCC.Converter({ from: 'cn', to: 'hk' });
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n;
+      while ((n = w.nextNode())) {
+        var p = n.parentNode && n.parentNode.nodeName;
+        if (p !== 'SCRIPT' && p !== 'STYLE' && n.nodeValue.trim()) n.nodeValue = conv(n.nodeValue);
+      }
+      document.querySelectorAll('[placeholder],[title],[aria-label]').forEach(function (el) {
+        ['placeholder', 'title', 'aria-label'].forEach(function (a) { if (el.hasAttribute(a)) el.setAttribute(a, conv(el.getAttribute(a))); });
+      });
+      document.title = conv(document.title);
+      document.documentElement.lang = 'zh-HK';
+      document.querySelectorAll('[data-zh]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-zh') === 'hk'); });
+    });
+  }
+  document.querySelectorAll('[data-zh]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var v = b.getAttribute('data-zh');
+      try { localStorage.setItem(KEY, v); } catch (e) {}
+      if (v === 'hk') toTrad(); else location.reload();
+    });
+  });
+  var saved; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved === 'hk') toTrad();
+  window.__toTrad = toTrad;
+})();
+</script>
