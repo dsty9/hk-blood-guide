@@ -38,7 +38,20 @@ const jsonld = [
     </div>
   </section>
 
-  <div class="trust-strip"><div class="container">{CFG.trust.map((t) => <span>{t}</span>)}</div></div>
+  <section class="trust-sec">
+    <div class="container trust-grid">
+      {CFG.trust.map((t) => (
+        <div class="trust">
+          <div class="ico">{t.icon}</div>
+          <div>
+            <span class="tag">{t.tag}</span>
+            <h3>{t.title}</h3>
+            <p>{t.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
