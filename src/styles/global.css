@@ -136,6 +136,7 @@ figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; }
 .foot h4 { color: #fff; margin: 0 0 10px; font-size: 15px; }
 .foot a { display: block; color: #b8bfcc; line-height: 2; }
 .foot p { margin: 0 0 6px; }
+.foot p a { display: inline; line-height: inherit; }
 .foot .qr { margin-top: 8px; background: #fff; padding: 4px; }
 .copy { border-top: 1px solid #2f3646; margin-top: 32px; padding: 16px; text-align: center; color: #7d8596; font-size: 13px; }
 @media (max-width: 760px) { .foot { grid-template-columns: 1fr 1fr; } .site-footer { padding-bottom: 64px; } }
